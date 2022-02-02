@@ -20,3 +20,7 @@ spring:
       path: /h2-console
 
 account-api-url: http://localhost:7501
+
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true

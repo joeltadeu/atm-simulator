@@ -1,0 +1,22 @@
+version: '3.7'
+services:
+
+  account:
+    image: atms/account-service-api
+    container_name: account-service
+    build:
+      context: ./account-service
+      dockerfile: Dockerfile
+    ports:
+      - "7501:7501"
+
+  atm:
+    image: atms/atm-service-api
+    container_name: atm-service
+    build:
+      context: ./atm-service
+      dockerfile: Dockerfile
+    ports:
+      - "7500:7500"
+    depends_on:
+      - account

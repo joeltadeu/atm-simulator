@@ -46,172 +46,180 @@ public class AccountServiceTest {
     verify(accountRepositoryMock, times(1)).findByAccountNumber(anyString());
   }
 
-    @Test
-    public void getBalance_shouldDataNotFoundWhenAccountIsNotFound() {
-        final var accountNumber = "234566";
-        final var pin = "12345";
+  @Test
+  public void getBalance_shouldDataNotFoundWhenAccountIsNotFound() {
+    final var accountNumber = "234566";
+    final var pin = "12345";
 
-        when(accountRepositoryMock.findByAccountNumber(accountNumber)).thenReturn(Optional.empty());
+    when(accountRepositoryMock.findByAccountNumber(accountNumber)).thenReturn(Optional.empty());
 
-        final var assertThrows =
-            assertThrows(DataNotFoundException.class, () -> accountService.balance(accountNumber, pin));
+    final var assertThrows =
+        assertThrows(DataNotFoundException.class, () -> accountService.balance(accountNumber, pin));
 
-        assertEquals("Account number '%s' was not found".formatted(accountNumber), assertThrows.getMessage());
+    assertEquals(
+        "Account number '%s' was not found".formatted(accountNumber), assertThrows.getMessage());
 
-        verify(accountRepositoryMock, times(1)).findByAccountNumber(anyString());
-    }
+    verify(accountRepositoryMock, times(1)).findByAccountNumber(anyString());
+  }
 
-    @Test
-    public void getBalance_shouldBadRequestWhenPinIsInvalid() {
-        final var accountNumber = "234566";
-        final var pin = "12345";
+  @Test
+  public void getBalance_shouldBadRequestWhenPinIsInvalid() {
+    final var accountNumber = "234566";
+    final var pin = "12345";
 
-        final var returnedAccount =
-            getAccountEntity(accountNumber, "4321", 800, 200);
+    final var returnedAccount = getAccountEntity(accountNumber, "4321", 800, 200);
 
-        when(accountRepositoryMock.findByAccountNumber(accountNumber))
-            .thenReturn(Optional.of(returnedAccount));
+    when(accountRepositoryMock.findByAccountNumber(accountNumber))
+        .thenReturn(Optional.of(returnedAccount));
 
-        final var assertThrows =
-            assertThrows(BadRequestException.class, () -> accountService.balance(accountNumber, pin));
+    final var assertThrows =
+        assertThrows(BadRequestException.class, () -> accountService.balance(accountNumber, pin));
 
-        assertEquals("Pin account is invalid!", assertThrows.getMessage());
+    assertEquals("Pin account is invalid!", assertThrows.getMessage());
 
-        verify(accountRepositoryMock, times(1)).findByAccountNumber(anyString());
-    }
+    verify(accountRepositoryMock, times(1)).findByAccountNumber(anyString());
+  }
 
-    @Test
-    public void withdraw_shouldWithdrawFunds() {
-        final var accountNumber = "234566";
-        final var pin = "12345";
+  @Test
+  public void withdraw_shouldWithdrawFunds() {
+    final var accountNumber = "234566";
+    final var pin = "12345";
 
-        final var transaction = getTransactionRequest(500);
+    final var transaction = getTransactionRequest(500);
 
-        final var returnedAccount =
-            getAccountEntity(accountNumber, pin, 800, 200);
+    final var returnedAccount = getAccountEntity(accountNumber, pin, 800, 200);
 
-        when(accountRepositoryMock.findByAccountNumber(accountNumber))
-            .thenReturn(Optional.of(returnedAccount));
+    when(accountRepositoryMock.findByAccountNumber(accountNumber))
+        .thenReturn(Optional.of(returnedAccount));
 
-        accountService.withdraw(accountNumber, pin, transaction);
+    accountService.withdraw(accountNumber, pin, transaction);
 
-        verify(accountRepositoryMock, times(1)).findByAccountNumber(anyString());
-        verify(accountRepositoryMock, times(1)).save(any(AccountEntity.class));
-    }
+    verify(accountRepositoryMock, times(1)).findByAccountNumber(anyString());
+    verify(accountRepositoryMock, times(1)).save(any(AccountEntity.class));
+  }
 
-    @Test
-    public void withdraw_shouldDataNotFoundWhenAccountIsNotFound() {
-        final var accountNumber = "234566";
-        final var pin = "12345";
-        final var transaction = getTransactionRequest(500);
+  @Test
+  public void withdraw_shouldDataNotFoundWhenAccountIsNotFound() {
+    final var accountNumber = "234566";
+    final var pin = "12345";
+    final var transaction = getTransactionRequest(500);
 
-        when(accountRepositoryMock.findByAccountNumber(accountNumber)).thenReturn(Optional.empty());
+    when(accountRepositoryMock.findByAccountNumber(accountNumber)).thenReturn(Optional.empty());
 
-        final var assertThrows =
-            assertThrows(DataNotFoundException.class, () -> accountService.withdraw(accountNumber, pin, transaction));
+    final var assertThrows =
+        assertThrows(
+            DataNotFoundException.class,
+            () -> accountService.withdraw(accountNumber, pin, transaction));
 
-        assertEquals("Account number '%s' was not found".formatted(accountNumber), assertThrows.getMessage());
+    assertEquals(
+        "Account number '%s' was not found".formatted(accountNumber), assertThrows.getMessage());
 
-        verify(accountRepositoryMock, times(1)).findByAccountNumber(anyString());
-        verify(accountRepositoryMock, times(0)).save(any(AccountEntity.class));
-    }
+    verify(accountRepositoryMock, times(1)).findByAccountNumber(anyString());
+    verify(accountRepositoryMock, times(0)).save(any(AccountEntity.class));
+  }
 
-    @Test
-    public void withdraw_shouldBadRequestWhenPinIsInvalid() {
-        final var accountNumber = "234566";
-        final var pin = "12345";
-        final var transaction = getTransactionRequest(500);
+  @Test
+  public void withdraw_shouldBadRequestWhenPinIsInvalid() {
+    final var accountNumber = "234566";
+    final var pin = "12345";
+    final var transaction = getTransactionRequest(500);
 
-        final var returnedAccount =
-            getAccountEntity(accountNumber, "4321", 800, 200);
+    final var returnedAccount = getAccountEntity(accountNumber, "4321", 800, 200);
 
-        when(accountRepositoryMock.findByAccountNumber(accountNumber))
-            .thenReturn(Optional.of(returnedAccount));
+    when(accountRepositoryMock.findByAccountNumber(accountNumber))
+        .thenReturn(Optional.of(returnedAccount));
 
-        final var assertThrows =
-            assertThrows(BadRequestException.class, () -> accountService.withdraw(accountNumber, pin, transaction));
+    final var assertThrows =
+        assertThrows(
+            BadRequestException.class,
+            () -> accountService.withdraw(accountNumber, pin, transaction));
 
-        assertEquals("Pin account is invalid!", assertThrows.getMessage());
+    assertEquals("Pin account is invalid!", assertThrows.getMessage());
 
-        verify(accountRepositoryMock, times(1)).findByAccountNumber(anyString());
-        verify(accountRepositoryMock, times(0)).save(any(AccountEntity.class));
-    }
+    verify(accountRepositoryMock, times(1)).findByAccountNumber(anyString());
+    verify(accountRepositoryMock, times(0)).save(any(AccountEntity.class));
+  }
 
-    @Test
-    public void withdraw_shouldBadRequestWhenAccountHasInsufficientFunds() {
-        final var accountNumber = "234566";
-        final var pin = "12345";
-        final var transaction = getTransactionRequest(800);
+  @Test
+  public void withdraw_shouldBadRequestWhenAccountHasInsufficientFunds() {
+    final var accountNumber = "234566";
+    final var pin = "12345";
+    final var transaction = getTransactionRequest(800);
 
-        final var returnedAccount =
-            getAccountEntity(accountNumber, pin, 200, 200);
+    final var returnedAccount = getAccountEntity(accountNumber, pin, 200, 200);
 
-        when(accountRepositoryMock.findByAccountNumber(accountNumber))
-            .thenReturn(Optional.of(returnedAccount));
+    when(accountRepositoryMock.findByAccountNumber(accountNumber))
+        .thenReturn(Optional.of(returnedAccount));
 
-        final var assertThrows =
-            assertThrows(BadRequestException.class, () -> accountService.withdraw(accountNumber, pin, transaction));
+    final var assertThrows =
+        assertThrows(
+            BadRequestException.class,
+            () -> accountService.withdraw(accountNumber, pin, transaction));
 
-        assertEquals("Your Account has insufficient funds to complete this request", assertThrows.getMessage());
+    assertEquals(
+        "Your Account has insufficient funds to complete this request", assertThrows.getMessage());
 
-        verify(accountRepositoryMock, times(1)).findByAccountNumber(anyString());
-        verify(accountRepositoryMock, times(0)).save(any(AccountEntity.class));
-    }
+    verify(accountRepositoryMock, times(1)).findByAccountNumber(anyString());
+    verify(accountRepositoryMock, times(0)).save(any(AccountEntity.class));
+  }
 
-    @Test
-    public void deposit_shouldDepositFunds() {
-        final var accountNumber = "234566";
-        final var pin = "12345";
+  @Test
+  public void deposit_shouldDepositFunds() {
+    final var accountNumber = "234566";
+    final var pin = "12345";
 
-        final var transaction = getTransactionRequest(500);
+    final var transaction = getTransactionRequest(500);
 
-        final var returnedAccount =
-            getAccountEntity(accountNumber, pin, 800, 200);
+    final var returnedAccount = getAccountEntity(accountNumber, pin, 800, 200);
 
-        when(accountRepositoryMock.findByAccountNumber(accountNumber))
-            .thenReturn(Optional.of(returnedAccount));
+    when(accountRepositoryMock.findByAccountNumber(accountNumber))
+        .thenReturn(Optional.of(returnedAccount));
 
-        accountService.deposit(accountNumber, pin, transaction);
+    accountService.deposit(accountNumber, pin, transaction);
 
-        verify(accountRepositoryMock, times(1)).findByAccountNumber(anyString());
-        verify(accountRepositoryMock, times(1)).save(any(AccountEntity.class));
-    }
+    verify(accountRepositoryMock, times(1)).findByAccountNumber(anyString());
+    verify(accountRepositoryMock, times(1)).save(any(AccountEntity.class));
+  }
 
-    @Test
-    public void deposit_shouldDataNotFoundWhenAccountIsNotFound() {
-        final var accountNumber = "234566";
-        final var pin = "12345";
-        final var transaction = getTransactionRequest(500);
+  @Test
+  public void deposit_shouldDataNotFoundWhenAccountIsNotFound() {
+    final var accountNumber = "234566";
+    final var pin = "12345";
+    final var transaction = getTransactionRequest(500);
 
-        when(accountRepositoryMock.findByAccountNumber(accountNumber)).thenReturn(Optional.empty());
+    when(accountRepositoryMock.findByAccountNumber(accountNumber)).thenReturn(Optional.empty());
 
-        final var assertThrows =
-            assertThrows(DataNotFoundException.class, () -> accountService.deposit(accountNumber, pin, transaction));
+    final var assertThrows =
+        assertThrows(
+            DataNotFoundException.class,
+            () -> accountService.deposit(accountNumber, pin, transaction));
 
-        assertEquals("Account number '%s' was not found".formatted(accountNumber), assertThrows.getMessage());
+    assertEquals(
+        "Account number '%s' was not found".formatted(accountNumber), assertThrows.getMessage());
 
-        verify(accountRepositoryMock, times(1)).findByAccountNumber(anyString());
-        verify(accountRepositoryMock, times(0)).save(any(AccountEntity.class));
-    }
+    verify(accountRepositoryMock, times(1)).findByAccountNumber(anyString());
+    verify(accountRepositoryMock, times(0)).save(any(AccountEntity.class));
+  }
 
-    @Test
-    public void deposit_shouldBadRequestWhenPinIsInvalid() {
-        final var accountNumber = "234566";
-        final var pin = "12345";
-        final var transaction = getTransactionRequest(500);
+  @Test
+  public void deposit_shouldBadRequestWhenPinIsInvalid() {
+    final var accountNumber = "234566";
+    final var pin = "12345";
+    final var transaction = getTransactionRequest(500);
 
-        final var returnedAccount =
-            getAccountEntity(accountNumber, "4321", 800, 200);
+    final var returnedAccount = getAccountEntity(accountNumber, "4321", 800, 200);
 
-        when(accountRepositoryMock.findByAccountNumber(accountNumber))
-            .thenReturn(Optional.of(returnedAccount));
+    when(accountRepositoryMock.findByAccountNumber(accountNumber))
+        .thenReturn(Optional.of(returnedAccount));
 
-        final var assertThrows =
-            assertThrows(BadRequestException.class, () -> accountService.deposit(accountNumber, pin, transaction));
+    final var assertThrows =
+        assertThrows(
+            BadRequestException.class,
+            () -> accountService.deposit(accountNumber, pin, transaction));
 
-        assertEquals("Pin account is invalid!", assertThrows.getMessage());
+    assertEquals("Pin account is invalid!", assertThrows.getMessage());
 
-        verify(accountRepositoryMock, times(1)).findByAccountNumber(anyString());
-        verify(accountRepositoryMock, times(0)).save(any(AccountEntity.class));
-    }
+    verify(accountRepositoryMock, times(1)).findByAccountNumber(anyString());
+    verify(accountRepositoryMock, times(0)).save(any(AccountEntity.class));
+  }
 }

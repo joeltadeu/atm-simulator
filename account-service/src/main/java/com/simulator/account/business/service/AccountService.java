@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -24,19 +23,19 @@ public class AccountService {
   public void withdraw(String accountNumber, String pin, TransactionRequest request) {
     log.info(
         "Withdraw funds: account number: [{}], amount: [{}]", accountNumber, request.getAmount());
-    AccountEntity accountEntity = findByAccountNumber(accountNumber);
+    final var accountEntity = findByAccountNumber(accountNumber);
 
     log.info("Checking pin account...");
     checkPin(pin, accountEntity);
 
     log.info("Checking balance...");
-    BigDecimal totalBalance =
+    final var totalBalance =
         accountEntity.getBalance().add(accountEntity.getOverdraft()).subtract(request.getAmount());
     if (totalBalance.compareTo(BigDecimal.ZERO) < 0) {
       throw new BadRequestException("Your Account has insufficient funds to complete this request");
     }
 
-    BigDecimal updatedBalance = accountEntity.getBalance().subtract(request.getAmount());
+    final var updatedBalance = accountEntity.getBalance().subtract(request.getAmount());
     accountEntity.setBalance(updatedBalance);
 
     log.info("Saving account with new balance: [{}]", updatedBalance);
@@ -46,13 +45,13 @@ public class AccountService {
   public void deposit(String accountNumber, String pin, TransactionRequest request) {
     log.info(
         "Deposit funds: account number: [{}], amount: [{}]", accountNumber, request.getAmount());
-    AccountEntity accountEntity = findByAccountNumber(accountNumber);
+    final var accountEntity = findByAccountNumber(accountNumber);
 
     log.info("Checking pin account...");
     checkPin(pin, accountEntity);
 
     log.info("Calculating new balance...");
-    BigDecimal balance = accountEntity.getBalance().add(request.getAmount());
+    final var balance = accountEntity.getBalance().add(request.getAmount());
 
     accountEntity.setBalance(balance);
 
@@ -62,7 +61,7 @@ public class AccountService {
 
   public AccountEntity findByAccountNumber(String accountNumber) {
     log.info("Account number: [{}]", accountNumber);
-    Optional<AccountEntity> accountEntityOptional = repository.findByAccountNumber(accountNumber);
+    final var accountEntityOptional = repository.findByAccountNumber(accountNumber);
 
     if (accountEntityOptional.isEmpty()) {
       throw new DataNotFoundException(
@@ -73,9 +72,8 @@ public class AccountService {
   }
 
   public AccountEntity balance(String accountNumber, String pin) {
-    log.info(
-        "Balance account: account number: [{}]", accountNumber);
-    AccountEntity accountEntity = findByAccountNumber(accountNumber);
+    log.info("Balance account: account number: [{}]", accountNumber);
+    final var accountEntity = findByAccountNumber(accountNumber);
 
     log.info("Checking pin account...");
     checkPin(pin, accountEntity);
@@ -84,7 +82,7 @@ public class AccountService {
   }
 
   private void checkPin(String pin, AccountEntity accountEntity) {
-    if(! accountEntity.getPin().equals(pin))
+    if (!accountEntity.getPin().equals(pin))
       throw new BadRequestException("Pin account is invalid!");
   }
 }

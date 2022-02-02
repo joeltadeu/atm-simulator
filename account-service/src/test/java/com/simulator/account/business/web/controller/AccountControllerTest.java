@@ -33,173 +33,216 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest({ AccountController.class})
-@ContextConfiguration(classes = { Application.class, ModelMapperConfig.class, AccountHelper.class })
+@WebMvcTest({AccountController.class})
+@ContextConfiguration(classes = {Application.class, ModelMapperConfig.class, AccountHelper.class})
 public class AccountControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-    @MockBean
-    private AccountService accountServiceMock;
+  @MockBean private AccountService accountServiceMock;
 
-    @Test
-    public void withdraw_shouldWithdrawFunds() throws Exception {
-        final var accountNumber = "234566";
-        final var pin = "12345";
-        final var requestJson = getTransactionRequestJson();
+  @Test
+  public void withdraw_shouldWithdrawFunds() throws Exception {
+    final var accountNumber = "234566";
+    final var pin = "12345";
+    final var requestJson = getTransactionRequestJson();
 
-        mockMvc.perform(put("/v1/accounts/{accountNumber}/withdraw", accountNumber)
+    mockMvc
+        .perform(
+            put("/v1/accounts/{accountNumber}/withdraw", accountNumber)
                 .header("pin", pin)
                 .contentType(APPLICATION_JSON)
-                .content( requestJson))
-            .andExpect(status().is(200));
+                .content(requestJson))
+        .andExpect(status().is(200));
 
-        verify(accountServiceMock, times(1)).withdraw(anyString(), anyString(), any(TransactionRequest.class));
-    }
+    verify(accountServiceMock, times(1))
+        .withdraw(anyString(), anyString(), any(TransactionRequest.class));
+  }
 
-    @Test
-    public void withdraw_shouldBadRequestWhenPinIsMissing() throws Exception {
+  @Test
+  public void withdraw_shouldBadRequestWhenPinIsMissing() throws Exception {
 
-        final var accountNumber = "234566";
-        final var requestJson = getTransactionRequestJson();
+    final var accountNumber = "234566";
+    final var requestJson = getTransactionRequestJson();
 
-        mockMvc.perform(put("/v1/accounts/{accountNumber}/withdraw", accountNumber)
+    mockMvc
+        .perform(
+            put("/v1/accounts/{accountNumber}/withdraw", accountNumber)
                 .contentType(APPLICATION_JSON)
-                .content( requestJson))
-            .andExpect(status().is(400))
-            .andExpect(jsonPath("status").value("Bad Request"))
-            .andExpect(jsonPath("description").value("Required request header 'pin' for method parameter type String is not present"));
+                .content(requestJson))
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("status").value("Bad Request"))
+        .andExpect(
+            jsonPath("description")
+                .value(
+                    "Required request header 'pin' for method parameter type String is not present"));
 
-        verify(accountServiceMock, times(0)).withdraw(anyString(), anyString(), any(TransactionRequest.class));
-    }
+    verify(accountServiceMock, times(0))
+        .withdraw(anyString(), anyString(), any(TransactionRequest.class));
+  }
 
-    @Test
-    public void withdraw_shouldDataNotFoundWhenAccountIsNotFound() throws Exception {
+  @Test
+  public void withdraw_shouldDataNotFoundWhenAccountIsNotFound() throws Exception {
 
-        final var accountNumber = "234566";
-        final var requestJson = getTransactionRequestJson();
-        final var pin = "12345";
+    final var accountNumber = "234566";
+    final var requestJson = getTransactionRequestJson();
+    final var pin = "12345";
 
-        doThrow(new DataNotFoundException("Account number '%s' was not found".formatted(accountNumber)))
-            .when(accountServiceMock).withdraw(anyString(), anyString(), any(TransactionRequest.class));
+    doThrow(new DataNotFoundException("Account number '%s' was not found".formatted(accountNumber)))
+        .when(accountServiceMock)
+        .withdraw(anyString(), anyString(), any(TransactionRequest.class));
 
-        mockMvc.perform(put("/v1/accounts/{accountNumber}/withdraw", accountNumber).contentType(APPLICATION_JSON)
+    mockMvc
+        .perform(
+            put("/v1/accounts/{accountNumber}/withdraw", accountNumber)
+                .contentType(APPLICATION_JSON)
                 .header("pin", pin)
-                .content( requestJson))
-            .andExpect(status().is(404))
-            .andExpect(jsonPath("status").value("Not Found"))
-            .andExpect(jsonPath("description").value("Account number '%s' was not found".formatted(accountNumber)));
-    }
+                .content(requestJson))
+        .andExpect(status().is(404))
+        .andExpect(jsonPath("status").value("Not Found"))
+        .andExpect(
+            jsonPath("description")
+                .value("Account number '%s' was not found".formatted(accountNumber)));
+  }
 
-    @Test
-    public void withdraw_shouldBadRequestWhenPinIsInvalid() throws Exception {
+  @Test
+  public void withdraw_shouldBadRequestWhenPinIsInvalid() throws Exception {
 
-        final var accountNumber = "234566";
-        final var requestJson = getTransactionRequestJson();
-        final var pin = "xxxxx";
+    final var accountNumber = "234566";
+    final var requestJson = getTransactionRequestJson();
+    final var pin = "xxxxx";
 
-        doThrow(new BadRequestException("Pin account is invalid!"))
-            .when(accountServiceMock).withdraw(anyString(), anyString(), any(TransactionRequest.class));
+    doThrow(new BadRequestException("Pin account is invalid!"))
+        .when(accountServiceMock)
+        .withdraw(anyString(), anyString(), any(TransactionRequest.class));
 
-        mockMvc.perform(put("/v1/accounts/{accountNumber}/withdraw", accountNumber).contentType(APPLICATION_JSON)
+    mockMvc
+        .perform(
+            put("/v1/accounts/{accountNumber}/withdraw", accountNumber)
+                .contentType(APPLICATION_JSON)
                 .header("pin", pin)
-                .content( requestJson))
-            .andExpect(status().is(400))
-            .andExpect(jsonPath("status").value("Bad Request"))
-            .andExpect(jsonPath("description").value("Pin account is invalid!"));
-    }
+                .content(requestJson))
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("status").value("Bad Request"))
+        .andExpect(jsonPath("description").value("Pin account is invalid!"));
+  }
 
-    @Test
-    public void withdraw_shouldBadRequestWhenAccountHasInsufficientFunds() throws Exception {
+  @Test
+  public void withdraw_shouldBadRequestWhenAccountHasInsufficientFunds() throws Exception {
 
-        final var accountNumber = "234566";
-        final var requestJson = getTransactionRequestJson();
-        final var pin = "1234";
+    final var accountNumber = "234566";
+    final var requestJson = getTransactionRequestJson();
+    final var pin = "1234";
 
-        doThrow(new BadRequestException("Your Account has insufficient funds to complete this request"))
-            .when(accountServiceMock).withdraw(anyString(), anyString(), any(TransactionRequest.class));
+    doThrow(new BadRequestException("Your Account has insufficient funds to complete this request"))
+        .when(accountServiceMock)
+        .withdraw(anyString(), anyString(), any(TransactionRequest.class));
 
-        mockMvc.perform(put("/v1/accounts/{accountNumber}/withdraw", accountNumber).contentType(APPLICATION_JSON)
+    mockMvc
+        .perform(
+            put("/v1/accounts/{accountNumber}/withdraw", accountNumber)
+                .contentType(APPLICATION_JSON)
                 .header("pin", pin)
-                .content( requestJson))
-            .andExpect(status().is(400))
-            .andExpect(jsonPath("status").value("Bad Request"))
-            .andExpect(jsonPath("description").value("Your Account has insufficient funds to complete this request"));
-    }
+                .content(requestJson))
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("status").value("Bad Request"))
+        .andExpect(
+            jsonPath("description")
+                .value("Your Account has insufficient funds to complete this request"));
+  }
 
-    @Test
-    public void deposit_shouldDepositFunds() throws Exception {
-        final var accountNumber = "234566";
-        final var pin = "12345";
-        final var requestJson = getTransactionRequestJson();
+  @Test
+  public void deposit_shouldDepositFunds() throws Exception {
+    final var accountNumber = "234566";
+    final var pin = "12345";
+    final var requestJson = getTransactionRequestJson();
 
-        mockMvc.perform(put("/v1/accounts/{accountNumber}/deposit", accountNumber)
+    mockMvc
+        .perform(
+            put("/v1/accounts/{accountNumber}/deposit", accountNumber)
                 .header("pin", pin)
                 .contentType(APPLICATION_JSON)
-                .content( requestJson))
-            .andExpect(status().is(200));
+                .content(requestJson))
+        .andExpect(status().is(200));
 
-        verify(accountServiceMock, times(1)).deposit(anyString(), anyString(), any(TransactionRequest.class));
-    }
+    verify(accountServiceMock, times(1))
+        .deposit(anyString(), anyString(), any(TransactionRequest.class));
+  }
 
-    @Test
-    public void deposit_shouldBadRequestWhenPinIsMissing() throws Exception {
+  @Test
+  public void deposit_shouldBadRequestWhenPinIsMissing() throws Exception {
 
-        final var accountNumber = "234566";
-        final var requestJson = getTransactionRequestJson();
+    final var accountNumber = "234566";
+    final var requestJson = getTransactionRequestJson();
 
-        mockMvc.perform(put("/v1/accounts/{accountNumber}/deposit", accountNumber)
+    mockMvc
+        .perform(
+            put("/v1/accounts/{accountNumber}/deposit", accountNumber)
                 .contentType(APPLICATION_JSON)
-                .content( requestJson))
-            .andExpect(status().is(400))
-            .andExpect(jsonPath("status").value("Bad Request"))
-            .andExpect(jsonPath("description").value("Required request header 'pin' for method parameter type String is not present"));
+                .content(requestJson))
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("status").value("Bad Request"))
+        .andExpect(
+            jsonPath("description")
+                .value(
+                    "Required request header 'pin' for method parameter type String is not present"));
 
-        verify(accountServiceMock, times(0)).deposit(anyString(), anyString(), any(TransactionRequest.class));
-    }
+    verify(accountServiceMock, times(0))
+        .deposit(anyString(), anyString(), any(TransactionRequest.class));
+  }
 
-    @Test
-    public void deposit_shouldDataNotFoundWhenAccountIsNotFound() throws Exception {
+  @Test
+  public void deposit_shouldDataNotFoundWhenAccountIsNotFound() throws Exception {
 
-        final var accountNumber = "234566";
-        final var requestJson = getTransactionRequestJson();
-        final var pin = "12345";
+    final var accountNumber = "234566";
+    final var requestJson = getTransactionRequestJson();
+    final var pin = "12345";
 
-        doThrow(new DataNotFoundException("Account number '%s' was not found".formatted(accountNumber)))
-            .when(accountServiceMock).deposit(anyString(), anyString(), any(TransactionRequest.class));
+    doThrow(new DataNotFoundException("Account number '%s' was not found".formatted(accountNumber)))
+        .when(accountServiceMock)
+        .deposit(anyString(), anyString(), any(TransactionRequest.class));
 
-        mockMvc.perform(put("/v1/accounts/{accountNumber}/deposit", accountNumber).contentType(APPLICATION_JSON)
+    mockMvc
+        .perform(
+            put("/v1/accounts/{accountNumber}/deposit", accountNumber)
+                .contentType(APPLICATION_JSON)
                 .header("pin", pin)
-                .content( requestJson))
-            .andExpect(status().is(404))
-            .andExpect(jsonPath("status").value("Not Found"))
-            .andExpect(jsonPath("description").value("Account number '%s' was not found".formatted(accountNumber)));
-    }
+                .content(requestJson))
+        .andExpect(status().is(404))
+        .andExpect(jsonPath("status").value("Not Found"))
+        .andExpect(
+            jsonPath("description")
+                .value("Account number '%s' was not found".formatted(accountNumber)));
+  }
 
-    @Test
-    public void deposit_shouldBadRequestWhenPinIsInvalid() throws Exception {
+  @Test
+  public void deposit_shouldBadRequestWhenPinIsInvalid() throws Exception {
 
-        final var accountNumber = "234566";
-        final var requestJson = getTransactionRequestJson();
-        final var pin = "xxxxx";
+    final var accountNumber = "234566";
+    final var requestJson = getTransactionRequestJson();
+    final var pin = "xxxxx";
 
-        doThrow(new BadRequestException("Pin account is invalid!"))
-            .when(accountServiceMock).deposit(anyString(), anyString(), any(TransactionRequest.class));
+    doThrow(new BadRequestException("Pin account is invalid!"))
+        .when(accountServiceMock)
+        .deposit(anyString(), anyString(), any(TransactionRequest.class));
 
-        mockMvc.perform(put("/v1/accounts/{accountNumber}/deposit", accountNumber).contentType(APPLICATION_JSON)
+    mockMvc
+        .perform(
+            put("/v1/accounts/{accountNumber}/deposit", accountNumber)
+                .contentType(APPLICATION_JSON)
                 .header("pin", pin)
-                .content( requestJson))
-            .andExpect(status().is(400))
-            .andExpect(jsonPath("status").value("Bad Request"))
-            .andExpect(jsonPath("description").value("Pin account is invalid!"));
-    }
+                .content(requestJson))
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("status").value("Bad Request"))
+        .andExpect(jsonPath("description").value("Pin account is invalid!"));
+  }
 
-    @Test
-    public void balance_shouldBalance() throws Exception {
-        final var accountNumber = "234566";
-        final var pin = "12345";
-        final var account = AccountEntity.builder()
+  @Test
+  public void balance_shouldBalance() throws Exception {
+    final var accountNumber = "234566";
+    final var pin = "12345";
+    final var account =
+        AccountEntity.builder()
             .id(1L)
             .pin(pin)
             .accountNumber(accountNumber)
@@ -207,63 +250,78 @@ public class AccountControllerTest {
             .overdraft(BigDecimal.valueOf(200))
             .build();
 
-        when(accountServiceMock.balance(anyString(), anyString())).thenReturn(account);
+    when(accountServiceMock.balance(anyString(), anyString())).thenReturn(account);
 
-        mockMvc.perform(get("/v1/accounts/{accountNumber}/balance", accountNumber)
+    mockMvc
+        .perform(
+            get("/v1/accounts/{accountNumber}/balance", accountNumber)
                 .header("pin", pin)
                 .contentType(APPLICATION_JSON))
-            .andExpect(status().is(200));
+        .andExpect(status().is(200));
 
-        verify(accountServiceMock, times(1)).balance(anyString(), anyString());
-    }
+    verify(accountServiceMock, times(1)).balance(anyString(), anyString());
+  }
 
-    @Test
-    public void balance_shouldBadRequestWhenPinIsMissing() throws Exception {
+  @Test
+  public void balance_shouldBadRequestWhenPinIsMissing() throws Exception {
 
-        final var accountNumber = "234566";
+    final var accountNumber = "234566";
 
-        mockMvc.perform(get("/v1/accounts/{accountNumber}/balance", accountNumber)
+    mockMvc
+        .perform(
+            get("/v1/accounts/{accountNumber}/balance", accountNumber)
                 .contentType(APPLICATION_JSON))
-            .andExpect(status().is(400))
-            .andExpect(jsonPath("status").value("Bad Request"))
-            .andExpect(jsonPath("description").value("Required request header 'pin' for method parameter type String is not present"));
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("status").value("Bad Request"))
+        .andExpect(
+            jsonPath("description")
+                .value(
+                    "Required request header 'pin' for method parameter type String is not present"));
 
-        verify(accountServiceMock, times(0)).balance(anyString(), anyString());
-    }
+    verify(accountServiceMock, times(0)).balance(anyString(), anyString());
+  }
 
-    @Test
-    public void balance_shouldDataNotFoundWhenAccountIsNotFound() throws Exception {
+  @Test
+  public void balance_shouldDataNotFoundWhenAccountIsNotFound() throws Exception {
 
-        final var accountNumber = "234566";
-        final var pin = "12345";
+    final var accountNumber = "234566";
+    final var pin = "12345";
 
-        doThrow(new DataNotFoundException("Account number '%s' was not found".formatted(accountNumber)))
-            .when(accountServiceMock).balance(anyString(), anyString());
+    doThrow(new DataNotFoundException("Account number '%s' was not found".formatted(accountNumber)))
+        .when(accountServiceMock)
+        .balance(anyString(), anyString());
 
-        mockMvc.perform(get("/v1/accounts/{accountNumber}/balance", accountNumber)
+    mockMvc
+        .perform(
+            get("/v1/accounts/{accountNumber}/balance", accountNumber)
                 .header("pin", pin)
                 .contentType(APPLICATION_JSON))
-            .andExpect(status().is(404))
-            .andExpect(jsonPath("status").value("Not Found"))
-            .andExpect(jsonPath("description").value("Account number '%s' was not found".formatted(accountNumber)));
+        .andExpect(status().is(404))
+        .andExpect(jsonPath("status").value("Not Found"))
+        .andExpect(
+            jsonPath("description")
+                .value("Account number '%s' was not found".formatted(accountNumber)));
 
-        verify(accountServiceMock, times(1)).balance(anyString(), anyString());
-    }
+    verify(accountServiceMock, times(1)).balance(anyString(), anyString());
+  }
 
-    @Test
-    public void balance_shouldBadRequestWhenPinIsInvalid() throws Exception {
+  @Test
+  public void balance_shouldBadRequestWhenPinIsInvalid() throws Exception {
 
-        final var accountNumber = "234566";
-        final var pin = "xxxxx";
+    final var accountNumber = "234566";
+    final var pin = "xxxxx";
 
-        doThrow(new BadRequestException("Pin account is invalid!"))
-            .when(accountServiceMock).balance(anyString(), anyString());
+    doThrow(new BadRequestException("Pin account is invalid!"))
+        .when(accountServiceMock)
+        .balance(anyString(), anyString());
 
-        mockMvc.perform(get("/v1/accounts/{accountNumber}/balance", accountNumber)
+    mockMvc
+        .perform(
+            get("/v1/accounts/{accountNumber}/balance", accountNumber)
                 .header("pin", pin)
                 .contentType(APPLICATION_JSON))
-            .andExpect(status().is(400))
-            .andExpect(jsonPath("status").value("Bad Request"))
-            .andExpect(jsonPath("description").value("Pin account is invalid!"));
-    }
+        .andExpect(status().is(400))
+        .andExpect(jsonPath("status").value("Bad Request"))
+        .andExpect(jsonPath("description").value("Pin account is invalid!"));
+  }
 }

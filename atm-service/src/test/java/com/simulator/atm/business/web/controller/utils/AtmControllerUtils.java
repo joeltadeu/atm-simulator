@@ -18,6 +18,8 @@ public class AtmControllerUtils {
             Request.HttpMethod.GET, new Date(), request);
     }
 
+
+
     public static String getTransactionRequestJson() {
         return """
                 {

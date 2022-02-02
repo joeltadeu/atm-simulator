@@ -54,16 +54,24 @@ public class AccountController {
                   mediaType = "application/json",
                   schema = @Schema(implementation = AccountEntity.class))
             }),
-        @ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content),
-        @ApiResponse(responseCode = "404", description = "Account not found", content = @Content)
+        @ApiResponse(
+            responseCode = "400",
+            description = "Invalid account number supplied",
+            content = @Content),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Invalid pin supplied",
+            content = @Content),
+        @ApiResponse(
+            responseCode = "404",
+            description = "Account number not found",
+            content = @Content)
       })
   public ResponseEntity<AccountBalanceDto> find(
-      @Parameter(description = "Account number to be searched")
-      @PathVariable
-          String accountNumber,
+      @Parameter(description = "Account number to be searched") @PathVariable String accountNumber,
       @Parameter(description = "Pin of account")
-      @RequestHeader(value = "pin")
-      @NotNull(message = "Missing pin")
+          @RequestHeader(value = "pin")
+          @NotNull(message = "Missing pin")
           String pin) {
     log.info("Finding account by account number: {}", accountNumber);
     AccountEntity entity = service.balance(accountNumber, pin);
@@ -77,16 +85,29 @@ public class AccountController {
       value = {
         @ApiResponse(
             responseCode = "200",
-            description = "Withdraw funds request completed successfully")
+            description = "Withdraw funds request completed successfully"),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Invalid account number supplied",
+            content = @Content),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Invalid pin supplied",
+            content = @Content),
+        @ApiResponse(
+            responseCode = "404",
+            description = "Account number not found",
+            content = @Content)
       })
   public ResponseEntity<Void> withdraw(
       @Parameter(name = "Account number", example = "328762", required = true)
           @PathVariable(value = "accountNumber")
           String accountNumber,
-      @RequestBody @Valid TransactionRequest request,
-      @RequestHeader(value = "pin")
-      @NotNull(message = "Missing pin")
-          String pin) {
+      @Parameter(description = "Pin of account", example = "1234", required = true)
+          @RequestHeader(value = "pin")
+          @NotNull(message = "Missing pin")
+          String pin,
+      @RequestBody @Valid TransactionRequest request) {
 
     service.withdraw(accountNumber, pin, request);
     return ResponseEntity.ok().build();
@@ -98,17 +119,34 @@ public class AccountController {
       value = {
         @ApiResponse(
             responseCode = "200",
-            description = "Deposit funds request completed successfully")
+            description = "Deposit funds request completed successfully"),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Invalid account number supplied",
+            content = @Content),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Invalid pin supplied",
+            content = @Content),
+        @ApiResponse(
+            responseCode = "404",
+            description = "Account number not found",
+            content = @Content)
       })
   public ResponseEntity<Void> deposit(
       @Parameter(name = "Account number", example = "328762", required = true)
           @PathVariable(value = "accountNumber")
           String accountNumber,
-      @RequestBody @Valid TransactionRequest request,
-      @RequestHeader(value = "pin")
-      @NotNull(message = "Missing pin")
-          String pin) {
+      @Parameter(description = "Pin of account", example = "1234", required = true)
+          @RequestHeader(value = "pin")
+          @NotNull(message = "Missing pin")
+          String pin,
+      @RequestBody @Valid TransactionRequest request) {
 
+    log.info(
+        "Request for deposit funds, account number {}, amount {}",
+        accountNumber,
+        request.getAmount());
     service.deposit(accountNumber, pin, request);
     return ResponseEntity.ok().build();
   }

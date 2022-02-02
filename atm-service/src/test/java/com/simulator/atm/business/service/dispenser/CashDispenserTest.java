@@ -1,7 +1,6 @@
 package com.simulator.atm.business.service.dispenser;
 
 import com.simulator.exception.BadRequestException;
-import com.simulator.exception.DataNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -102,5 +101,16 @@ public class CashDispenserTest {
         assertThrows(BadRequestException.class, () -> cashDispenser.dispense(143));
 
     assertEquals("It is not possible to dispense this value", assertThrows.getMessage());
+  }
+
+  @Test
+  public void refund_shouldRefundWhenAmountIs1500() {
+    final var cashedDispensed = cashDispenser.dispense(1500);
+
+    assertEquals(cashDispenser.getTotalCash(), 0);
+
+    cashDispenser.refund(cashedDispensed);
+
+    assertEquals(cashDispenser.getTotalCash(), 1500);
   }
 }

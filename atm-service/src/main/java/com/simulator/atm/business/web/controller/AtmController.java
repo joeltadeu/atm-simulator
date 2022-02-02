@@ -49,19 +49,32 @@ public class AtmController {
       value = {
         @ApiResponse(
             responseCode = "200",
-            description = "Dispense funds request completed successfully")
+            description = "Dispense funds request completed successfully"),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Invalid account number supplied",
+            content = @Content),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Invalid pin supplied",
+            content = @Content),
+        @ApiResponse(
+            responseCode = "404",
+            description = "Account number not found",
+            content = @Content)
       })
   public ResponseEntity<DispenseResponse> dispense(
-      @Parameter(description = "Account number")
+      @Parameter(description = "Account number", example = "328762", required = true)
           @RequestHeader(value = "accountNumber")
           @NotNull(message = "Missing account number")
           String accountNumber,
-      @Parameter(description = "Pin of account")
+      @Parameter(description = "Pin of account", example = "1234", required = true)
           @RequestHeader(value = "pin")
           @NotNull(message = "Missing pin")
           String pin,
       @RequestBody @Valid TransactionRequest request) {
 
+    log.info("Request for dispense cash €{}", request.getAmount());
     List<Cash> cashDispensed = service.dispense(accountNumber, pin, request.getAmount().intValue());
 
     DispenseResponse response =
@@ -73,22 +86,31 @@ public class AtmController {
     return ResponseEntity.ok(response);
   }
 
-    @GetMapping(value = "/balance", produces = "application/json")
-    @Operation(summary = "Get balance from account")
-    @ApiResponses(
-        value = {
-            @ApiResponse(
-                responseCode = "200",
-                description = "Return a account balance",
-                content = {
-                    @Content(
-                        mediaType = "application/json",
-                        schema = @Schema(implementation = AccountBalanceDto.class))
-                }),
-            @ApiResponse(responseCode = "400", description = "Invalid account number supplied", content = @Content),
-            @ApiResponse(responseCode = "400", description = "Invalid pin supplied", content = @Content),
-            @ApiResponse(responseCode = "404", description = "Account number not found", content = @Content)
-        })
+  @GetMapping(value = "/balance", produces = "application/json")
+  @Operation(summary = "Get balance from account")
+  @ApiResponses(
+      value = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "Return a account balance",
+            content = {
+              @Content(
+                  mediaType = "application/json",
+                  schema = @Schema(implementation = AccountBalanceDto.class))
+            }),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Invalid account number supplied",
+            content = @Content),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Invalid pin supplied",
+            content = @Content),
+        @ApiResponse(
+            responseCode = "404",
+            description = "Account number not found",
+            content = @Content)
+      })
   public ResponseEntity<AccountBalanceDto> balance(
       @Parameter(description = "Account number")
           @RequestHeader(value = "accountNumber")
@@ -98,7 +120,8 @@ public class AtmController {
           @RequestHeader(value = "pin")
           @NotNull(message = "Missing pin")
           String pin) {
-      AccountBalanceDto accountBalanceDto = service.balance(accountNumber, pin);
+    log.info("Request for get balance by account number {}", accountNumber);
+    AccountBalanceDto accountBalanceDto = service.balance(accountNumber, pin);
     return ResponseEntity.ok(accountBalanceDto);
   }
 }

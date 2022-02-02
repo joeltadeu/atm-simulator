@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 
 import java.math.BigDecimal;
 
@@ -17,5 +18,6 @@ public class TransactionRequest {
       description = "Amount for the transaction (debit/withdraw)",
       name = "amount",
       example = "1,000.00")
+  @Range(min = 5, message = "ATM cannot dispense less then €5")
   private BigDecimal amount;
 }

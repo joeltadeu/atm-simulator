@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 @Component
-@FeignClient(url = "${account-api-url}", name="AccountClient")
+@FeignClient(url = "${account-api-url}", name = "AccountClient")
 public interface AccountServiceClient {
 
   @PutMapping(value = "/v1/accounts/{accountNumber}/withdraw")
-  void withdraw(@PathVariable("accountNumber") String accountNumber,
-                @RequestHeader(value = "pin") String pin,
-                @RequestBody
-                    TransactionRequest request);
+  void withdraw(
+      @PathVariable("accountNumber") String accountNumber,
+      @RequestHeader(value = "pin") String pin,
+      @RequestBody TransactionRequest request);
 
   @GetMapping(value = "/v1/accounts/{accountNumber}/balance")
-  AccountBalanceDto balance(@PathVariable("accountNumber") String accountNumber,
-                            @RequestHeader(value = "pin") String pin);
-
+  AccountBalanceDto balance(
+      @PathVariable("accountNumber") String accountNumber,
+      @RequestHeader(value = "pin") String pin);
 }

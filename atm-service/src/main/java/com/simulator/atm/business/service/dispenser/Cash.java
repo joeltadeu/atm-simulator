@@ -13,4 +13,8 @@ public class Cash {
   public void subtract(int value) {
     this.total -= value;
   }
+
+  public void add(int value) {
+    this.total += value;
+  }
 }
