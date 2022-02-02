@@ -75,6 +75,16 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-contract-maven-plugin</artifactId>
+                <version>${spring-cloud-contract.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <baseClassForTests>com.simulator.account.AccountBase</baseClassForTests>
+                    <testFramework>JUNIT5</testFramework>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
