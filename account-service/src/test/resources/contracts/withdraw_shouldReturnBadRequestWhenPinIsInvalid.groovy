@@ -3,19 +3,20 @@ package contracts
 import org.springframework.cloud.contract.spec.Contract
 
 Contract.make {
-    description("Return DataNotFound when account is not found on the database")
+    description("Withdraw Money :: Return BadRequest when pin is invalid")
     request {
-        method 'GET'
-        url '/v1/accounts/54644/balance'
+        method 'PUT'
+        url '/v1/accounts/123456789/withdraw'
         headers {
             contentType(applicationJson())
-            header('pin','1234')
+            header('pin','xxxx')
         }
+        body(amount : 100)
     }
     response {
-        status 404
+        status 400
         body([
-                description: "Account number '54644' was not found"
+                description: "Pin account is invalid!"
         ]
         )
         headers {

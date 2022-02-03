@@ -1,6 +1,7 @@
 package com.simulator.account;
 
 import com.simulator.account.business.web.controller.AccountController;
+import com.simulator.account.commons.exception.AccountControllerExceptionHandler;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +24,7 @@ public class AccountBase {
     @BeforeEach
     void setup() {
         StandaloneMockMvcBuilder standaloneMockMvcBuilder = MockMvcBuilders.standaloneSetup(accountController);
+        standaloneMockMvcBuilder.setControllerAdvice(AccountControllerExceptionHandler.class);
         RestAssuredMockMvc.standaloneSetup(standaloneMockMvcBuilder);
     }
 }

@@ -3,7 +3,7 @@ package contracts
 import org.springframework.cloud.contract.spec.Contract
 
 Contract.make {
-    description("Get Balance from account")
+    description("Get Balance :: Return balance from account")
     request {
         method 'GET'
         url '/v1/accounts/123456789/balance'
