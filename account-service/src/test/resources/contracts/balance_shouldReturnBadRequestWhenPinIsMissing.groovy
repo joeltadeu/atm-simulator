@@ -7,9 +7,6 @@ Contract.make {
     request {
         method 'GET'
         url '/v1/accounts/123456789/balance'
-        headers {
-            contentType(applicationJson())
-        }
     }
     response {
         status 400

@@ -7,9 +7,6 @@ Contract.make {
     request {
         method 'PUT'
         url '/v1/accounts/123456789/withdraw'
-        headers {
-            contentType(applicationJson())
-        }
         body(amount : 100)
     }
     response {
