@@ -1,4 +1,4 @@
-package contracts
+package contracts.balance
 
 import org.springframework.cloud.contract.spec.Contract
 
@@ -7,11 +7,14 @@ Contract.make {
     request {
         method 'GET'
         url '/v1/accounts/123456789/balance'
+        headers {
+            header('pin','xxxx')
+        }
     }
     response {
         status 400
         body([
-                description: "Required request header 'pin' for method parameter type String is not present"
+                description: "Pin account is invalid!"
         ]
         )
         headers {

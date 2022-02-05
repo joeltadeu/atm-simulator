@@ -1,4 +1,4 @@
-package contracts
+package contracts.withdraw
 
 import org.springframework.cloud.contract.spec.Contract
 
@@ -8,9 +8,10 @@ Contract.make {
         method 'PUT'
         url '/v1/accounts/54644/withdraw'
         headers {
+            header("Content-type", applicationJson())
             header('pin','1234')
         }
-        body(amount : 100)
+        body(amount : 500)
     }
     response {
         status 404

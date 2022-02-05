@@ -43,7 +43,7 @@ public class AccountController {
   }
 
   @GetMapping(value = "/{accountNumber}/balance", produces = "application/json")
-  @Operation(summary = "Get from account")
+  @Operation(summary = "Get balance from account")
   @ApiResponses(
       value = {
         @ApiResponse(

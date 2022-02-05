@@ -20,11 +20,11 @@ public class AtmControllerUtils {
 
 
 
-    public static String getTransactionRequestJson() {
+    public static String getTransactionRequestJson(Integer amount) {
         return """
                 {
-                    "amount":500
+                    "amount":%s
                 }
-            """;
+            """.formatted(amount);
     }
 }

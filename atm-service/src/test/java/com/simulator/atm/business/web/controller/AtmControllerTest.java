@@ -169,7 +169,7 @@ public class AtmControllerTest {
   public void dispense_shouldDispenseMoney() throws Exception {
     final var accountNumber = "234566";
     final var pin = "12345";
-    final var requestJson = getTransactionRequestJson();
+    final var requestJson = getTransactionRequestJson(500);
 
     mockMvc
         .perform(
@@ -225,7 +225,7 @@ public class AtmControllerTest {
 
     final var accountNumber = "234566";
     final var pin = "12345";
-    final var requestJson = getTransactionRequestJson();
+    final var requestJson = getTransactionRequestJson(500);
 
     doThrow(new DataNotFoundException("Account number '%s' was not found".formatted(accountNumber)))
         .when(atmServiceMock)
@@ -252,7 +252,7 @@ public class AtmControllerTest {
 
     final var accountNumber = "234566";
     final var pin = "12345";
-    final var requestJson = getTransactionRequestJson();
+    final var requestJson = getTransactionRequestJson(500);
 
     doThrow(new BadRequestException("Your Account has insufficient funds to complete this request"))
         .when(atmServiceMock)
@@ -279,7 +279,7 @@ public class AtmControllerTest {
 
     final var accountNumber = "234566";
     final var pin = "12345";
-    final var requestJson = getTransactionRequestJson();
+    final var requestJson = getTransactionRequestJson(500);
 
     doThrow(new BadRequestException("Atm does not have the funds to complete your request"))
         .when(atmServiceMock)
@@ -305,7 +305,7 @@ public class AtmControllerTest {
 
     final var accountNumber = "234566";
     final var pin = "12345";
-    final var requestJson = getTransactionRequestJson();
+    final var requestJson = getTransactionRequestJson(500);
 
     doThrow(new BadRequestException("It is not possible to dispense this value"))
         .when(atmServiceMock)

@@ -1,4 +1,4 @@
-package contracts
+package contracts.deposit
 
 import org.springframework.cloud.contract.spec.Contract
 
@@ -8,6 +8,7 @@ Contract.make {
         method 'PUT'
         url '/v1/accounts/54644/deposit'
         headers {
+            header("Content-type", applicationJson())
             header('pin','1234')
         }
         body(amount : 100)

@@ -1,13 +1,12 @@
-package contracts
+package contracts.balance
 
 import org.springframework.cloud.contract.spec.Contract
 
 Contract.make {
-    description("Withdraw Money :: Return BadRequest when pin is missing")
+    description("Get Balance :: Return BadRequest when pin is invalid")
     request {
-        method 'PUT'
-        url '/v1/accounts/123456789/withdraw'
-        body(amount : 100)
+        method 'GET'
+        url '/v1/accounts/123456789/balance'
     }
     response {
         status 400

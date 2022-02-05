@@ -1,0 +1,184 @@
+{
+	"info": {
+		"_postman_id": "2c7a57d3-884e-4c0e-98e5-735c2997fb04",
+		"name": "atm-simulator",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "account-service",
+			"item": [
+				{
+					"name": "Balance",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "pin",
+								"value": "1234",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url-account-service}}/v1/accounts/123456789/balance",
+							"host": [
+								"{{url-account-service}}"
+							],
+							"path": [
+								"v1",
+								"accounts",
+								"123456789",
+								"balance"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Withdraw",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "pin",
+								"value": "1234",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\":500\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-account-service}}/v1/accounts/123456789/withdraw",
+							"host": [
+								"{{url-account-service}}"
+							],
+							"path": [
+								"v1",
+								"accounts",
+								"123456789",
+								"withdraw"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deposit",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "pin",
+								"value": "1234",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\":1000\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-account-service}}/v1/accounts/123456789/deposit",
+							"host": [
+								"{{url-account-service}}"
+							],
+							"path": [
+								"v1",
+								"accounts",
+								"123456789",
+								"deposit"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "atm-service",
+			"item": [
+				{
+					"name": "Dispense",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accountNumber",
+								"value": "123456789",
+								"type": "text"
+							},
+							{
+								"key": "pin",
+								"value": "1234",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\":\"500\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-atm-service}}/v1/atm/dispense",
+							"host": [
+								"{{url-atm-service}}"
+							],
+							"path": [
+								"v1",
+								"atm",
+								"dispense"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Balance",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accountNumber",
+								"value": "123456789",
+								"type": "text"
+							},
+							{
+								"key": "pin",
+								"value": "1234",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url-atm-service}}/v1/atm/balance",
+							"host": [
+								"{{url-atm-service}}"
+							],
+							"path": [
+								"v1",
+								"atm",
+								"balance"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

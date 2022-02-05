@@ -1,21 +1,18 @@
-package contracts
+package contracts.withdraw
 
 import org.springframework.cloud.contract.spec.Contract
 
 Contract.make {
-    description("Withdraw Money :: Return BadRequest when account has insufficient funds")
+    description("Withdraw Money :: Return BadRequest when pin is missing")
     request {
         method 'PUT'
         url '/v1/accounts/123456789/withdraw'
-        headers {
-            header('pin','1234')
-        }
-        body(amount : 2000)
+        body(amount : 500)
     }
     response {
         status 400
         body([
-                description: "Your Account has insufficient funds to complete this request"
+                description: "Required request header 'pin' for method parameter type String is not present"
         ]
         )
         headers {
