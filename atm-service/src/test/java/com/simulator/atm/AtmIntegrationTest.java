@@ -78,7 +78,7 @@ public class AtmIntegrationTest {
     public void Integration_dispense_shouldDispenseMoney() throws Exception {
         final var accountNumber = "123456789";
         final var pin = "1234";
-        final var requestJson = getTransactionRequestJson(100);
+        final var requestJson = getTransactionRequestJson(500);
 
         mockMvc
             .perform(

@@ -1,6 +1,6 @@
 package com.simulator.account.business.web.controller;
 
-import com.simulator.account.Application;
+import com.simulator.account.AccountApplication;
 import com.simulator.account.business.persistence.entity.AccountEntity;
 import com.simulator.account.business.service.AccountService;
 import com.simulator.account.business.web.helper.AccountHelper;
@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest({AccountController.class})
-@ContextConfiguration(classes = {Application.class, ModelMapperConfig.class, AccountHelper.class})
+@ContextConfiguration(classes = { AccountApplication.class, ModelMapperConfig.class, AccountHelper.class})
 public class AccountControllerTest {
 
   @Autowired private MockMvc mockMvc;

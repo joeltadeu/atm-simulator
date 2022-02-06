@@ -1,6 +1,6 @@
 package com.simulator.atm.business.web.controller;
 
-import com.simulator.atm.Application;
+import com.simulator.atm.AtmApplication;
 import com.simulator.atm.business.service.AtmService;
 import com.simulator.atm.business.web.helper.AtmHelper;
 import com.simulator.atm.infrastructure.config.ModelMapperConfig;
@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest({AtmController.class})
-@ContextConfiguration(classes = {Application.class, ModelMapperConfig.class, AtmHelper.class})
+@ContextConfiguration(classes = { AtmApplication.class, ModelMapperConfig.class, AtmHelper.class})
 public class AtmControllerTest {
 
   @Autowired private MockMvc mockMvc;
