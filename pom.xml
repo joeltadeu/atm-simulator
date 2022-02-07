@@ -32,8 +32,8 @@
 
     <modules>
         <module>lib-atm-common</module>
-        <module>atm-service</module>
         <module>account-service</module>
+        <module>atm-service</module>
     </modules>
 
     <dependencies>

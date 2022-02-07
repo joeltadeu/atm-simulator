@@ -17,11 +17,11 @@ public interface AccountServiceClient {
   @PutMapping(value = "/v1/accounts/{accountNumber}/withdraw")
   void withdraw(
       @PathVariable("accountNumber") String accountNumber,
-      @RequestHeader(value = "pin") String pin,
+      @RequestHeader(value = "pin", name = "pin") String pin,
       @RequestBody TransactionRequest request);
 
   @GetMapping(value = "/v1/accounts/{accountNumber}/balance")
   AccountBalanceDto balance(
       @PathVariable("accountNumber") String accountNumber,
-      @RequestHeader(value = "pin") String pin);
+      @RequestHeader(value = "pin", name = "pin") String pin);
 }

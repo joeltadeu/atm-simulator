@@ -6,7 +6,7 @@ Contract.make {
     description("Get Balance :: Return BadRequest when pin is invalid")
     request {
         method 'GET'
-        url '/v1/accounts/123456789/balance'
+        url '/v1/accounts/987654321/balance'
     }
     response {
         status 400

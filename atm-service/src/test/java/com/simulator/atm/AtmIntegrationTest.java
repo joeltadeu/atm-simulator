@@ -42,7 +42,7 @@ public class AtmIntegrationTest {
     @Test
     public void Integration_balance_shouldBadRequestWhenPinIsMissing() throws Exception {
 
-        final var accountNumber = "123456789";
+        final var accountNumber = "987654321";
 
         mockMvc
             .perform(
