@@ -32,7 +32,209 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "200_OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "pin",
+										"value": "1234",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-account-service}}/v1/accounts/123456789/balance",
+									"host": [
+										"{{url-account-service}}"
+									],
+									"path": [
+										"v1",
+										"accounts",
+										"123456789",
+										"balance"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 23:38:23 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"balance\": 800,\n    \"overdraft\": 200\n}"
+						},
+						{
+							"name": "404_Not_Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "pin",
+										"value": "1234",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-account-service}}/v1/accounts/1234567289/balance",
+									"host": [
+										"{{url-account-service}}"
+									],
+									"path": [
+										"v1",
+										"accounts",
+										"1234567289",
+										"balance"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 23:39:06 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 404,\n    \"status\": \"Not Found\",\n    \"description\": \"Account number '1234567289' was not found\",\n    \"date\": \"2022-02-07T23:39:06.571299300\"\n}"
+						},
+						{
+							"name": "400_Bad_Request_Invalid_PIN",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "pin",
+										"value": "xxxx",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-account-service}}/v1/accounts/123456789/balance",
+									"host": [
+										"{{url-account-service}}"
+									],
+									"path": [
+										"v1",
+										"accounts",
+										"123456789",
+										"balance"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 23:39:54 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 400,\n    \"status\": \"Bad Request\",\n    \"description\": \"Pin account is invalid!\",\n    \"date\": \"2022-02-07T23:39:54.466894600\"\n}"
+						},
+						{
+							"name": "400_Bad_Request_PIN_is_missing",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "pin",
+										"value": "xxxx",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{url-account-service}}/v1/accounts/123456789/balance",
+									"host": [
+										"{{url-account-service}}"
+									],
+									"path": [
+										"v1",
+										"accounts",
+										"123456789",
+										"balance"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 23:40:35 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 400,\n    \"status\": \"Bad Request\",\n    \"description\": \"Required request header 'pin' for method parameter type String is not present\",\n    \"date\": \"2022-02-07T23:40:35.592000800\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Withdraw",
@@ -67,7 +269,355 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "200_OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "pin",
+										"value": "1234",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\":100\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url-account-service}}/v1/accounts/123456789/withdraw",
+									"host": [
+										"{{url-account-service}}"
+									],
+									"path": [
+										"v1",
+										"accounts",
+										"123456789",
+										"withdraw"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "0"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 23:42:32 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "404_Not_Found",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "pin",
+										"value": "1234",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\":100\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url-account-service}}/v1/accounts/1234567189/withdraw",
+									"host": [
+										"{{url-account-service}}"
+									],
+									"path": [
+										"v1",
+										"accounts",
+										"1234567189",
+										"withdraw"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 23:45:39 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 404,\n    \"status\": \"Not Found\",\n    \"description\": \"Account number '1234567189' was not found\",\n    \"date\": \"2022-02-07T23:45:39.352141500\"\n}"
+						},
+						{
+							"name": "400_Bad_Request_Amount_Less_Then_5_Euros",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "pin",
+										"value": "1234",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\":0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url-account-service}}/v1/accounts/123456789/withdraw",
+									"host": [
+										"{{url-account-service}}"
+									],
+									"path": [
+										"v1",
+										"accounts",
+										"123456789",
+										"withdraw"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 23:41:46 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 400,\n    \"status\": \"Bad Request\",\n    \"description\": \"Validation Exception\",\n    \"date\": \"2022-02-07T23:41:46.717419700\",\n    \"attributes\": [\n        {\n            \"attribute\": \"amount\",\n            \"errors\": [\n                \"ATM cannot dispense less then €5\"\n            ]\n        }\n    ]\n}"
+						},
+						{
+							"name": "400_Bad_Request_Account_has_insufficient_funds",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "pin",
+										"value": "1234",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\":2000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url-account-service}}/v1/accounts/123456789/withdraw",
+									"host": [
+										"{{url-account-service}}"
+									],
+									"path": [
+										"v1",
+										"accounts",
+										"123456789",
+										"withdraw"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 23:43:09 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 400,\n    \"status\": \"Bad Request\",\n    \"description\": \"Your Account has insufficient funds to complete this request\",\n    \"date\": \"2022-02-07T23:43:09.089065800\"\n}"
+						},
+						{
+							"name": "400_Bad_Request_Invalid_PIN",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "pin",
+										"value": "xxxx",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\":100\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url-account-service}}/v1/accounts/123456789/withdraw",
+									"host": [
+										"{{url-account-service}}"
+									],
+									"path": [
+										"v1",
+										"accounts",
+										"123456789",
+										"withdraw"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 23:46:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 400,\n    \"status\": \"Bad Request\",\n    \"description\": \"Pin account is invalid!\",\n    \"date\": \"2022-02-07T23:46:41.453885200\"\n}"
+						},
+						{
+							"name": "400_Bad_Request_PIN_is_missing",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "pin",
+										"value": "xxxx",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\":100\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url-account-service}}/v1/accounts/123456789/withdraw",
+									"host": [
+										"{{url-account-service}}"
+									],
+									"path": [
+										"v1",
+										"accounts",
+										"123456789",
+										"withdraw"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 23:47:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 400,\n    \"status\": \"Bad Request\",\n    \"description\": \"Required request header 'pin' for method parameter type String is not present\",\n    \"date\": \"2022-02-07T23:47:55.636044\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Deposit",
@@ -102,7 +652,241 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "200_OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "pin",
+										"value": "1234",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\":1000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url-account-service}}/v1/accounts/123456789/deposit",
+									"host": [
+										"{{url-account-service}}"
+									],
+									"path": [
+										"v1",
+										"accounts",
+										"123456789",
+										"deposit"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Length",
+									"value": "0"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 23:49:58 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": null
+						},
+						{
+							"name": "404_Not_Found",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "pin",
+										"value": "1234",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\":1000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url-account-service}}/v1/accounts/1234567819/deposit",
+									"host": [
+										"{{url-account-service}}"
+									],
+									"path": [
+										"v1",
+										"accounts",
+										"1234567819",
+										"deposit"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 23:52:46 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 404,\n    \"status\": \"Not Found\",\n    \"description\": \"Account number '1234567819' was not found\",\n    \"date\": \"2022-02-07T23:52:46.677691300\"\n}"
+						},
+						{
+							"name": "400_Bad_Request_Invalid_PIN",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "pin",
+										"value": "xxxx",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\":1000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url-account-service}}/v1/accounts/123456789/deposit",
+									"host": [
+										"{{url-account-service}}"
+									],
+									"path": [
+										"v1",
+										"accounts",
+										"123456789",
+										"deposit"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 23:53:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 400,\n    \"status\": \"Bad Request\",\n    \"description\": \"Pin account is invalid!\",\n    \"date\": \"2022-02-07T23:53:15.904529200\"\n}"
+						},
+						{
+							"name": "400_Bad_Request_PIN_is_missing",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "pin",
+										"value": "xxxx",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\":1000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url-account-service}}/v1/accounts/123456789/deposit",
+									"host": [
+										"{{url-account-service}}"
+									],
+									"path": [
+										"v1",
+										"accounts",
+										"123456789",
+										"deposit"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 07 Feb 2022 23:53:40 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 400,\n    \"status\": \"Bad Request\",\n    \"description\": \"Required request header 'pin' for method parameter type String is not present\",\n    \"date\": \"2022-02-07T23:53:40.635963600\"\n}"
+						}
+					]
 				}
 			]
 		},
@@ -146,7 +930,506 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "200_OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accountNumber",
+										"value": "123456789",
+										"type": "text"
+									},
+									{
+										"key": "pin",
+										"value": "1234",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\":\"175\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url-atm-service}}/v1/atm/dispense",
+									"host": [
+										"{{url-atm-service}}"
+									],
+									"path": [
+										"v1",
+										"atm",
+										"dispense"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 08 Feb 2022 00:17:04 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"dispensedCash\": 175,\n    \"notes\": [\n        {\n            \"type\": \"TWENTY\",\n            \"total\": 8\n        },\n        {\n            \"type\": \"TEN\",\n            \"total\": 1\n        },\n        {\n            \"type\": \"FIVE\",\n            \"total\": 1\n        }\n    ]\n}"
+						},
+						{
+							"name": "404_Not_found",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accountNumber",
+										"value": "1234567891",
+										"type": "text"
+									},
+									{
+										"key": "pin",
+										"value": "1234",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\":\"25\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url-atm-service}}/v1/atm/dispense",
+									"host": [
+										"{{url-atm-service}}"
+									],
+									"path": [
+										"v1",
+										"atm",
+										"dispense"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 08 Feb 2022 00:21:02 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 404,\n    \"status\": \"Not Found\",\n    \"description\": \"Account number '1234567891' was not found\",\n    \"date\": \"2022-02-08T00:21:02.744769300\"\n}"
+						},
+						{
+							"name": "400_Bad_Request_ATM_has_insufficient_funds",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accountNumber",
+										"value": "123456789",
+										"type": "text"
+									},
+									{
+										"key": "pin",
+										"value": "1234",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\":\"1235\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url-atm-service}}/v1/atm/dispense",
+									"host": [
+										"{{url-atm-service}}"
+									],
+									"path": [
+										"v1",
+										"atm",
+										"dispense"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 08 Feb 2022 00:15:16 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 400,\n    \"status\": \"Bad Request\",\n    \"description\": \"Atm does not have the funds to complete your request\",\n    \"date\": \"2022-02-08T00:15:16.973124500\"\n}"
+						},
+						{
+							"name": "400_Bad_Request_Not_Possible_to_dispense",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accountNumber",
+										"value": "123456789",
+										"type": "text"
+									},
+									{
+										"key": "pin",
+										"value": "1234",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\":\"174\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url-atm-service}}/v1/atm/dispense",
+									"host": [
+										"{{url-atm-service}}"
+									],
+									"path": [
+										"v1",
+										"atm",
+										"dispense"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 08 Feb 2022 00:19:00 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 400,\n    \"status\": \"Bad Request\",\n    \"description\": \"It is not possible to dispense this value\",\n    \"date\": \"2022-02-08T00:19:00.810413200\"\n}"
+						},
+						{
+							"name": "400_Bad_Request_Account_Number_is_missing",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accountNumber",
+										"value": "123456789",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "pin",
+										"value": "1234",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\":\"25\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url-atm-service}}/v1/atm/dispense",
+									"host": [
+										"{{url-atm-service}}"
+									],
+									"path": [
+										"v1",
+										"atm",
+										"dispense"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 08 Feb 2022 00:20:32 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 400,\n    \"status\": \"Bad Request\",\n    \"description\": \"Required request header 'accountNumber' for method parameter type String is not present\",\n    \"date\": \"2022-02-08T00:20:32.121266100\"\n}"
+						},
+						{
+							"name": "400_Bad_Request_Invalid_PIN",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accountNumber",
+										"value": "123456789",
+										"type": "text"
+									},
+									{
+										"key": "pin",
+										"value": "xxxx",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\":\"25\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url-atm-service}}/v1/atm/dispense",
+									"host": [
+										"{{url-atm-service}}"
+									],
+									"path": [
+										"v1",
+										"atm",
+										"dispense"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 08 Feb 2022 00:23:09 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 400,\n    \"status\": \"Bad Request\",\n    \"description\": \"Pin account is invalid!\",\n    \"date\": \"2022-02-08T00:23:09.409655700\"\n}"
+						},
+						{
+							"name": "400_Bad_Request_PIN_is_Missing",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accountNumber",
+										"value": "123456789",
+										"type": "text"
+									},
+									{
+										"key": "pin",
+										"value": "1234",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\":\"25\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url-atm-service}}/v1/atm/dispense",
+									"host": [
+										"{{url-atm-service}}"
+									],
+									"path": [
+										"v1",
+										"atm",
+										"dispense"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 08 Feb 2022 00:23:43 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 400,\n    \"status\": \"Bad Request\",\n    \"description\": \"Required request header 'pin' for method parameter type String is not present\",\n    \"date\": \"2022-02-08T00:23:43.407039700\"\n}"
+						},
+						{
+							"name": "400_Bad_Request_Account_has_insufficient_funds",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accountNumber",
+										"value": "123456789",
+										"type": "text"
+									},
+									{
+										"key": "pin",
+										"value": "1234",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\":\"10\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url-atm-service}}/v1/atm/dispense",
+									"host": [
+										"{{url-atm-service}}"
+									],
+									"path": [
+										"v1",
+										"atm",
+										"dispense"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 08 Feb 2022 00:29:51 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 400,\n    \"status\": \"Bad Request\",\n    \"description\": \"Your Account has insufficient funds to complete this request\",\n    \"date\": \"2022-02-08T00:29:51.340437800\"\n}"
+						}
+					]
 				},
 				{
 					"name": "Balance",
@@ -176,7 +1459,278 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "200_OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "accountNumber",
+										"value": "123456789",
+										"type": "text"
+									},
+									{
+										"key": "pin",
+										"value": "1234",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-atm-service}}/v1/atm/balance",
+									"host": [
+										"{{url-atm-service}}"
+									],
+									"path": [
+										"v1",
+										"atm",
+										"balance"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 08 Feb 2022 00:09:01 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"balance\": 800,\n    \"overdraft\": 200\n}"
+						},
+						{
+							"name": "404_Not_Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "accountNumber",
+										"value": "1234567891",
+										"type": "text"
+									},
+									{
+										"key": "pin",
+										"value": "1234",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-atm-service}}/v1/atm/balance",
+									"host": [
+										"{{url-atm-service}}"
+									],
+									"path": [
+										"v1",
+										"atm",
+										"balance"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 08 Feb 2022 00:09:53 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 404,\n    \"status\": \"Not Found\",\n    \"description\": \"Account number '1234567891' was not found\",\n    \"date\": \"2022-02-08T00:09:53.834232800\"\n}"
+						},
+						{
+							"name": "400_Bad_Request_Account_Number_is_missing",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "accountNumber",
+										"value": "123456789",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "pin",
+										"value": "1234",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-atm-service}}/v1/atm/balance",
+									"host": [
+										"{{url-atm-service}}"
+									],
+									"path": [
+										"v1",
+										"atm",
+										"balance"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 08 Feb 2022 00:11:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 400,\n    \"status\": \"Bad Request\",\n    \"description\": \"Required request header 'accountNumber' for method parameter type String is not present\",\n    \"date\": \"2022-02-08T00:11:55.457145800\"\n}"
+						},
+						{
+							"name": "400_Bad_Request_PIN_is_missing",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "accountNumber",
+										"value": "123456789",
+										"type": "text"
+									},
+									{
+										"key": "pin",
+										"value": "1234",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{url-atm-service}}/v1/atm/balance",
+									"host": [
+										"{{url-atm-service}}"
+									],
+									"path": [
+										"v1",
+										"atm",
+										"balance"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 08 Feb 2022 00:12:46 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 400,\n    \"status\": \"Bad Request\",\n    \"description\": \"Required request header 'pin' for method parameter type String is not present\",\n    \"date\": \"2022-02-08T00:12:46.250555100\"\n}"
+						},
+						{
+							"name": "400_Bad_Request_Invalid_PIN",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "accountNumber",
+										"value": "123456789",
+										"type": "text"
+									},
+									{
+										"key": "pin",
+										"value": "xxxx",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url-atm-service}}/v1/atm/balance",
+									"host": [
+										"{{url-atm-service}}"
+									],
+									"path": [
+										"v1",
+										"atm",
+										"balance"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 08 Feb 2022 00:13:31 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"code\": 400,\n    \"status\": \"Bad Request\",\n    \"description\": \"Pin account is invalid!\",\n    \"date\": \"2022-02-08T00:13:31.188282100\"\n}"
+						}
+					]
 				}
 			]
 		}

@@ -1,6 +1,6 @@
 # ATM machine
 
-##Overview:
+## Overview:
 
 We all know how ATM machines work… don’t we? You are tasked with developing software for one that:
 
@@ -48,28 +48,36 @@ Assume importance levels:
 
 ### Documentation and examples ###
 
-###Swagger
+### Swagger
 
 - **ATM** : http://localhost:7500/swagger-ui.html
 - **Accounts** : http://localhost:7501/swagger-ui.html
 
-###Postman collection
+### Postman collection
 
 ![Alt text](_assets/postman-collection-folder.png?raw=true "Postman collection folder")
 
 ## Build & Run
 
-- *>mvn clean package* : to build
-- *>docker-compose up* --build : build docker images and containers and run containers
-- *>docker-compose stop* : stop the dockerized services
-- Each maven module has a Dockerfile.
+to build
+```
+mvn clean package
+```
+build docker images and containers and run containers
+```
+docker-compose up --build
+```
+stop the dockerized services
+```
+docker-compose stop
+```
 
 In docker-compose.yml file:
 
 - ATM Service : **__7500__** port is mapped to **__7500__** port of host
 - Account Service : **__7501__** port is mapped to **__7501__** port of host
 
-## VERSIONS
+## Versions
 
 ### 1.0.0
 
